@@ -1,0 +1,26 @@
+body {
+    background-color: #393f4d; 
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+header {
+    color: #d4d4dc;
+    padding: 20px;
+}
+
+h1 {
+    font-size: xx-large;
+    text-align: center;
+}
+
+article {
+    text-align: center;
+    padding: 10px;
+    font-size: large;
+    color: #feda6a;
+}
+
+footer {
+    padding: 10px;
+    color: #d4d4dc;
+}
