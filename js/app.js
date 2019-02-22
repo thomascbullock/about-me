@@ -2,6 +2,41 @@
 
 // get the user's name
 
+//adding function//
+function processQnum(userAnswer, inRightAnswer) {
+  var returnValue;
+  if (userAnswer < inRightAnswer) {
+    returnValue = 'Too Low';
+  } else if (userAnswer === inRightAnswer) {
+    returnValue = 'Correct';
+  } else if (userAnswer > inRightAnswer) {
+    returnValue = 'Too High';
+  } else if (isNaN(userAnswer)) {
+    returnValue = 'Please use a Number';
+  }
+  return returnValue;
+}
+function processQuestion(inQuestion, inRightAnswer, inText) {
+  var answer = prompt(inQuestion).toUpperCase();
+  console.log('answer: ', answer);
+  if (answer !== 'YES' && answer!== 'Y' && answer!== 'NO' && answer !== 'N' & answer!=='') {
+    alert('Invalid response. Please refresh the page to try again, using only yes or no answers to these questions.');
+  } else {
+    {
+      //if the answer is valid, strip answer back to 1 char as we no longer care about Y vs YES
+      var answerToCompare = answer.charAt(0);
+      var returnValue;
+      if (answerToCompare === inRightAnswer){
+        returnValue = 'Correct';
+      } else {
+        returnValue = 'Incorrect';
+      }
+      alert(returnValue + ' ' + inText);
+      return returnValue;
+    }
+  }
+}
+
 var userName = prompt('Welcome! As long as we\'re getting to know each other, what\'s your name?');
 console.log('username: ', userName);
 
@@ -39,20 +74,9 @@ if (!alphaOnly.test(userName)) {
   var correctAnswerCount = 0;
   for (var i = 0; i < questionsArr.length; i++) {
     //get the answer in upper for ease of validation
-    var answer = prompt(questionsArr[i].question).toUpperCase();
-    console.log('answer: ', answer);
-
-    if (answer !== 'YES' && answer!== 'Y' && answer!== 'NO' && answer !== 'N' & answer!=='') {
-      alert('Invalid response. Please refresh the page to try again, using only yes or no answers to these questions.');
-    } else {
-      //if the answer is valid, strip answer back to 1 char as we no longer care about Y vs YES
-      var answerToCompare = answer.charAt(0);
-      if (answerToCompare === questionsArr[i].correctAnswer) {
-        correctAnswerCount++;
-        alert('Correct! ' + questionsArr[i].alertTextSnip);
-      } else {
-        alert('Incorrect. ' + questionsArr[i].alertTextSnip);
-      }
+    var results = processQuestion(questionsArr[i].question, questionsArr[i].correctAnswer, questionsArr[i].alertTextSnip);
+    if (results === 'Correct') {
+      correctAnswerCount++;
     }
   }
   //the last two questions don't really fit the pattern so doing them separately
@@ -61,27 +85,13 @@ if (!alphaOnly.test(userName)) {
   while (randomNumGuessCount < randomNumGuessMax) {
     var randomNumGuess = prompt('I\'ve picked a random number between 1 and 100. Can you guess it?');
     var randomNumAnswer = Math.round((Math.random())*100);
-    console.log('answer: ', randomNumAnswer);
-    if (randomNumGuess > randomNumAnswer) {
-      alert('Too high! Guess again.');
-      randomNumGuessCount++;
-      console.log('guess: ' + randomNumGuess);
-      console.log('guess count: ' + randomNumGuessCount);
-    } else if (randomNumGuess < randomNumAnswer) {
-      alert('Too low! Guess again.');
-      randomNumGuessCount++;
-      console.log('guess: ' + randomNumGuess);
-      console.log('guess count: ' + randomNumGuessCount);
-    } else if (isNaN(randomNumGuess) || randomNumGuess === '' || typeof(randomNumGuess) === 'undefined') {
-      alert('This game is about guessing numbers. Try again with a number.');
-      randomNumGuessCount++;
-      console.log('guess: ' + randomNumGuess);
-      console.log('guess count: ' + randomNumGuessCount);
-    } else {
+    var resultsQnum =  processQnum(randomNumGuess, randomNumAnswer);
+    randomNumGuessCount++;
+    if (resultsQnum === 'Correct') {
       alert('Congratulations! You got it in ' + randomNumGuessCount + ' tries.');
-      console.log('guess: ' + randomNumGuess);
       randomNumGuessCount = 5;
-      correctAnswerCount++;
+    } else {
+      alert(resultsQnum);
     }
   }
 
