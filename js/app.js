@@ -36,7 +36,7 @@ if (!alphaOnly.test(userName)) {
       alertTextSnip: 'You\'ve pretty much covered it.'
     }
   ];
-
+  var correctAnswerCount = 0;
   for (var i = 0; i < questionsArr.length; i++) {
     //get the answer in upper for ease of validation
     var answer = prompt(questionsArr[i].question).toUpperCase();
@@ -48,11 +48,69 @@ if (!alphaOnly.test(userName)) {
       //if the answer is valid, strip answer back to 1 char as we no longer care about Y vs YES
       var answerToCompare = answer.charAt(0);
       if (answerToCompare === questionsArr[i].correctAnswer) {
+        correctAnswerCount++;
         alert('Correct! ' + questionsArr[i].alertTextSnip);
       } else {
         alert('Incorrect. ' + questionsArr[i].alertTextSnip);
       }
     }
   }
-}
+  //the last two questions don't really fit the pattern so doing them separately
+  var randomNumGuessCount = 0;
+  var randomNumGuessMax = 4;
+  while (randomNumGuessCount < randomNumGuessMax) {
+    var randomNumGuess = prompt('I\'ve picked a random number between 1 and 100. Can you guess it?');
+    var randomNumAnswer = Math.round((Math.random())*100);
+    console.log('answer: ', randomNumAnswer);
+    if (randomNumGuess > randomNumAnswer) {
+      alert('Too high! Guess again.');
+      randomNumGuessCount++;
+      console.log('guess: ' + randomNumGuess);
+      console.log('guess count: ' + randomNumGuessCount);
+    } else if (randomNumGuess < randomNumAnswer) {
+      alert('Too low! Guess again.');
+      randomNumGuessCount++;
+      console.log('guess: ' + randomNumGuess);
+      console.log('guess count: ' + randomNumGuessCount);
+    } else if (isNaN(randomNumGuess) || randomNumGuess === '' || typeof(randomNumGuess) === 'undefined') {
+      alert('This game is about guessing numbers. Try again with a number.');
+      randomNumGuessCount++;
+      console.log('guess: ' + randomNumGuess);
+      console.log('guess count: ' + randomNumGuessCount);
+    } else {
+      alert('Congratulations! You got it in ' + randomNumGuessCount + ' tries.');
+      console.log('guess: ' + randomNumGuess);
+      randomNumGuessCount = 5;
+      correctAnswerCount++;
+    }
+  }
 
+  var breweryList = ['New Belgium','Odell','Crooked Stave','Coopersmiths','Horse and Dragon','Equinox','Funkworks','Zwei'];
+  var breweryGuessCount = 0;
+  var breweryGuessMax = 6;
+  var breweryAnswerCorrect = false;
+  var baseAlert = 'The answers were: ' + breweryList;
+
+  while (breweryGuessCount < breweryGuessMax) {
+    var breweryGuess = prompt('I lived for many years in Fort Collins, home of most of the best breweries in the country. Can you name one?');
+    breweryGuessCount++;
+    console.log('guess: ' + breweryGuess);
+    console.log('guess count: ' + breweryGuessCount);
+    for (var breweryListIndex = 0; breweryListIndex < breweryList.length; breweryListIndex++) {
+      if (breweryGuess === breweryList[breweryListIndex]) {
+        breweryAnswerCorrect = true;
+        //setting these two values to break the loops
+        breweryListIndex = breweryListIndex.length;
+        breweryGuessCount = breweryGuessMax;
+        correctAnswerCount++;
+      }
+    }
+  }
+  if (breweryAnswerCorrect) {
+    alert('You got one!' + baseAlert);
+  } else {
+    alert('Better luck next time.' + baseAlert);
+  }
+
+  alert('Thanks for playing! You got ' + correctAnswerCount + ' answers correct.');
+}

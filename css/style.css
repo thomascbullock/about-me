@@ -1,6 +1,8 @@
 body {
     background-color: #393f4d; 
     font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 header {
@@ -13,11 +15,26 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    font-size: x-large;
+    text-align: left;
+    padding: 20px;
+}
+
 article {
-    text-align: center;
-    padding: 10px;
+    text-align: left;
+    padding: 20px;
     font-size: large;
     color: #feda6a;
+}
+
+a {
+    color: lightblue;
+}
+
+ol {
+    list-style: decimal;
+    padding: 10px;
 }
 
 footer {
